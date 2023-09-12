@@ -4,6 +4,20 @@ namespace App\DTO;
 
 class AbstractDTO
 {
+    /**
+     * @var int|null
+     */
+    protected $userId;
+
+    /**
+     * @param int|null $id
+     */
+    public function __construct(int $id = null)
+    {
+        $this->userId = $id ?? auth()->user()->id;
+    }
+
+
     public function toArray()
     {
         $array = [];
@@ -15,5 +29,13 @@ class AbstractDTO
         }
 
         return $array;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
     }
 }

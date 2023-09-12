@@ -16,6 +16,7 @@ class Login
     public function authenticate(LoginDTO $dto): array
     {
         $credentials = $dto->toArray();
+        unset($credentials['userId']);
 
         if (Auth::attempt($credentials)) {
             return [

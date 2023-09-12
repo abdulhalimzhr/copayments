@@ -2,10 +2,10 @@
 
 namespace App\Livewire\Dashboard;
 
-use App\Models\User;
-use App\Models\Transaction;
 use Livewire\Component;
 use Livewire\Attributes\Title;
+use App\Services\Payment\Deposit as DepositService;
+use App\DTO\DepositDTO;
 
 class Deposit extends Component
 {
@@ -19,22 +19,12 @@ class Deposit extends Component
         'amount' => 'required|numeric|min:1'
       ]);
 
-      $user = User::find(auth()->user()->id);
-
-      Transaction::create([
-        'user_id'     => $user->id,
-        'amount'      => $this->amount,
-        'type'        => 1, // 1 = deposit, 2 = withdraw
-        'status'      => 1, // 1 = success, 2 = failed
-        'description' => 'Deposit success.'
-      ]);
-
-      $user->balance += $this->amount;
-      $user->save();
+      $deposit = new DepositService();
+      $deposit->pay(new DepositDTO($this->amount));
 
       session()->flash('deposits', 'Deposit success.');
     } catch (\Exception $e) {
-      session()->flash('depositse', 'Deposit failed. Error: ' . $e->getMessage());
+      session()->flash('deposite', 'Deposit failed. Error: ' . $e->getMessage());
     }
 
     $this->amount = null;

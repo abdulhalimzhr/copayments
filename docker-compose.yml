@@ -58,7 +58,7 @@ services:
   worker:
     image: codingcollective/php
     container_name: worker
-    restart: unless-stopped
+    restart: always
     tty: true
     environment:
       SERVICE_NAME: worker

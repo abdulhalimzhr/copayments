@@ -39,11 +39,11 @@
     </thead>
     <tbody>
       @foreach ($transactions as $item => $value)
-      <tr class="border-b dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 ">
+      <tr class="border-b dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" wire:key="$value->id">
         <td class="px-6 py-4">{{ $item + 1 }}</td>
-        <td class="px-6 py-4">{{ $this->dateFormat($value['created_at']) }}</td>
-        <td class="px-6 py-4">{{ $this->currencyFormat($value['amount']) }}</td>
-        <td class="px-6 py-4">{{ $value['type'] > 1 ? 'Withdraw' : 'Deposit' }}</td>
+        <td class="px-6 py-4">{{ $this->dateFormat($value->created_at) }}</td>
+        <td class="px-6 py-4">{{ $this->currencyFormat($value->amount) }}</td>
+        <td class="px-6 py-4">{{ $value->type > 1 ? 'Withdraw' : 'Deposit' }}</td>
         <td class="
           px-6 py-4
           @if ($value['status'])
@@ -56,7 +56,7 @@
       @endforeach
     </tbody>
   </table>
-  {{ $links->links() }}
+  {{ $transactions->links() }}
   @else
   <div class="px-6 py-4">
     @if ($search !== '')

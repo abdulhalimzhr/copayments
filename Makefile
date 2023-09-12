@@ -10,16 +10,16 @@ CMD_NPM = npm
 
 setup:
 	$(DOCKER_COMPOSE) up -d --build
-	ifeq (,$(wildcard ./.env))
-		cp .env.example .env
-		$(CMD_ARTISAN) key:generate
-	endif
-	ifeq (,$(wildcard ./vendor/))
-		$(CMD_COMPOSER) install
-	endif
-	ifeq (,$(wildcard ./node_modules/))
-		$(CMD_NPM) install
-	endif
+ifeq (,$(wildcard ./.env))
+	cp .env.example .env
+	$(CMD_ARTISAN) key:generate
+endif
+ifeq (,$(wildcard ./vendor/))
+	$(CMD_COMPOSER) install
+endif
+ifeq (,$(wildcard ./node_modules/))
+	$(CMD_NPM) install
+endif
 	$(CMD_ARTISAN) key:generate
 	$(CMD_ARTISAN) migrate:fresh --seed
 	$(CMD_ARTISAN) config:clear

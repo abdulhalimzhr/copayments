@@ -2,12 +2,11 @@
 
 namespace App\Livewire\Dashboard;
 
+use Livewire\WithPagination;
 use Livewire\Component;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Reactive;
 use App\Services\Payment\ListTransactions as ListTransactionsService;
 use App\DTO\TransactionListDTO;
-use Livewire\WithPagination;
 
 class Home extends Component
 {
@@ -18,7 +17,8 @@ class Home extends Component
   public $perPage = 10;
   public $search  = '';
   public $balance = 0;
-  public $transactions = null;
+  protected $transactions = null;
+  public $page;
 
   public function mount()
   {
@@ -32,23 +32,21 @@ class Home extends Component
    */
   public function updatedSearch()
   {
+    $this->resetPage();
     $this->transactions = $this->loadTransactions();
   }
 
   /**
-   * @return LengthAwarePaginator|bool
+   * @return Builder|bool
    */
   public function loadTransactions()
   {
-    $listTransaction = new ListTransactionsService();
-    $result = $listTransaction->getList(
+    return (new ListTransactionsService())->getList(
       new TransactionListDTO(
         $this->perPage,
         $this->search
       )
     );
-
-    return $result;
   }
 
   /**
@@ -73,13 +71,11 @@ class Home extends Component
 
   public function render()
   {
-    $links              = $this->transactions;
-    $this->transactions = collect($this->transactions->items());
+    $this->transactions = $this->loadTransactions();
 
     return view('livewire.dashboard.home', [
-      'transactions' => $this->transactions,
+      'transactions' => $this->transactions->paginate($this->perPage),
       'balance'      => $this->balance,
-      'links'        => $links
     ]);
   }
 }

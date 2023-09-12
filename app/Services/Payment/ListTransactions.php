@@ -2,17 +2,18 @@
 
 namespace App\Services\Payment;
 
+use App\Services\AbstractService;
 use App\Models\Transaction;
 use App\DTO\TransactionListDTO;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
-class ListTransactions
+class ListTransactions extends AbstractService
 {
   /**
    * @param TransactionListDTO $dto
-   * @return LengthAwarePaginator|bool
+   * @return Builder|bool
    */
-  public function getList(TransactionListDTO $dto): LengthAwarePaginator|bool
+  public function getList(TransactionListDTO $dto): Builder|bool
   {
     try {
       $user = auth()->user();
@@ -27,7 +28,6 @@ class ListTransactions
       }
 
       $data = $data->orderBy('created_at', 'desc');
-      $data = $data->paginate($dto->getPerPage());
 
       return $data;
     } catch (\Exception $e) {

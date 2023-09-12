@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('order_id')->nullable();
             $table->double('amount');
-            $table->integer('type');
-            $table->integer('status');
+            $table->enum('type', [1, 2])->default(1);
+            $table->enum('status', [0, 1]);
             $table->string('description');
             $table->timestamps();
         });

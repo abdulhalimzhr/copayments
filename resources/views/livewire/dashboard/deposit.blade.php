@@ -7,9 +7,9 @@
         <div class="alert alert--success">
             {{ session('deposits') }}
         </div>
-        @elseif (session()->has('depositse'))
+        @elseif (session()->has('deposite'))
         <div class="alert alert--danger">
-            {{ session('depositse') }}
+            {{ session('deposite') }}
         </div>
         @endif
         <form wire:submit.prevent="deposit">
