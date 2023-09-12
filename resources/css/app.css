@@ -8,11 +8,11 @@
 
 body {
   @apply min-h-screen;
-  @apply bg-white dark:bg-gray-900;
+  @apply bg-white dark:bg-gray-800;
 }
 
 .dark {
-  @apply bg-gray-900;
+  @apply bg-gray-800;
 }
 
 .section {

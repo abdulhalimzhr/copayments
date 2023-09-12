@@ -1,6 +1,6 @@
 <div>
   <div class="p-5">
-    <h1>Your balance : Rp{{ $balance }}</h1>
+    <h1>Your balance : {{ $balance }}</h1>
   </div>
   <div class="p-4 bg-white dark:bg-gray-900 flex">
     <label for="table-search" class="sr-only">Search</label>
@@ -39,21 +39,19 @@
     </thead>
     <tbody>
       @foreach ($transactions as $item => $value)
-      <tr class="
-        border-b
-        @if ($value['type'] == 1) 
-            bg-green-500
-        @else
-            bg-red-500 
-        @endif
-        text-white        
-        >
-        dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+      <tr class="border-b dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 ">
         <td class="px-6 py-4">{{ $item + 1 }}</td>
-        <td class="px-6 py-4">{{ $value['created_at'] }}</td>
-        <td class="px-6 py-4">{{ $value['amount'] }}</td>
+        <td class="px-6 py-4">{{ $this->dateFormat($value['created_at']) }}</td>
+        <td class="px-6 py-4">{{ $this->currencyFormat($value['amount']) }}</td>
         <td class="px-6 py-4">{{ $value['type'] > 1 ? 'Withdraw' : 'Deposit' }}</td>
-        <td class="px-6 py-4">{{ $value['status'] ? 'Success' : 'Failed' }}</td>
+        <td class="
+          px-6 py-4
+          @if ($value['status'])
+          !text-green-500
+          @else
+          !text-red-500
+          @endif
+        ">{{ $value['status'] ? 'Success' : 'Failed' }}</td>
       </tr>
       @endforeach
     </tbody>

@@ -36,6 +36,8 @@ class Deposit extends Component
     } catch (\Exception $e) {
       session()->flash('depositse', 'Deposit failed. Error: ' . $e->getMessage());
     }
+
+    $this->amount = null;
   }
 
   public function render()

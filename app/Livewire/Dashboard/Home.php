@@ -51,9 +51,24 @@ class Home extends Component
     return $result;
   }
 
-  private function currencyFormat($value)
+  /**
+   * @param int $value
+   * 
+   * @return string
+   */
+  public function currencyFormat(int $value): string
   {
-    return number_format($value, 2, ',', '.');
+    return 'Rp' . number_format($value, 2, ',', '.');
+  }
+
+  /**
+   * @param string $date
+   * 
+   * @return string
+   */
+  public function dateFormat(string $date): string
+  {
+    return date('l, j F Y h:i:s A', strtotime($date));
   }
 
   public function render()

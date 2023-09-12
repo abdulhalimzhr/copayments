@@ -16,7 +16,7 @@
     $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" x-cloak :class="{'dark' : darkMode === true}">
   <livewire:components.navbar :page="$title" />
   <div class="container mt-5 mx-auto px-4">
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full dark:bg-gray-900">
       {{ $slot }}
     </div>
   </div>
