@@ -10,9 +10,17 @@ CMD_NPM = npm
 
 setup:
 	$(DOCKER_COMPOSE) up -d --build
+	ifeq (,$(wildcard ./.env))
+		cp .env.example .env
+		$(CMD_ARTISAN) key:generate
+	endif
+	ifeq (,$(wildcard ./vendor/))
+		$(CMD_COMPOSER) install
+	endif
+	ifeq (,$(wildcard ./node_modules/))
+		$(CMD_NPM) install
+	endif
 	$(CMD_ARTISAN) key:generate
-	$(CMD_COMPOSER) install
-	$(CMD_NPM) install
 	$(CMD_ARTISAN) migrate:fresh --seed
 	$(CMD_ARTISAN) config:clear
 	$(CMD_ARTISAN) route:clear
@@ -38,18 +46,6 @@ cache:
 	$(CMD_ARTISAN) route:clear
 	$(CMD_ARTISAN) view:clear
 	$(CMD_ARTISAN) optimize:clear
-
-install:
-ifeq (,$(wildcard ./.env))
-	cp .env.example .env
-	$(CMD_ARTISAN) key:generate
-endif
-ifeq (,$(wildcard ./vendor/))
-	$(CMD_COMPOSER) install
-endif
-ifeq (,$(wildcard ./node_modules/))
-	$(CMD_NPM) install
-endif
 
 logs:
 	$(DOCKER_COMPOSE) logs -ft --tail=50
