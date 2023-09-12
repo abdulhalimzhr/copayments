@@ -3,19 +3,13 @@
 namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
+use Livewire\Attributes\Title;
 
 class Withdraw extends Component
 {
-    public $page = 'Withdraw';
-
+    #[Title('Withdraw')]
     public function render()
     {
-        return view('livewire.dashboard.withdraw')
-            ->layout(
-                'layouts.app',
-                [
-                    'title' => $this->page
-                ]
-            );
+        return view('livewire.dashboard.withdraw');
     }
 }

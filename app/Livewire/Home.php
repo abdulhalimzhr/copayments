@@ -3,19 +3,13 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Title;
 
 class Home extends Component
 {
-    public $title = 'Home';
-
-    public function render()
-    {
-        return view('livewire.home')
-            ->layout(
-                'layouts.app',
-                [
-                    'title' => $this->title
-                ]
-            );
-    }
+  #[Title('Home')]
+  public function render()
+  {
+    return view('livewire.home');
+  }
 }

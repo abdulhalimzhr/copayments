@@ -8,8 +8,19 @@ use App\DTO\LoginDTO;
 
 class Login extends Component
 {
+    /**
+     * @var string
+     */
     public $title = 'Login - Cocol Payment';
+
+    /**
+     * @var string
+     */
     public $email;
+
+    /**
+     * @var string
+     */
     public $password;
 
     public function login(LoginService $loginService)
@@ -35,7 +46,7 @@ class Login extends Component
     {
         return view('livewire.auth.login')
             ->layout(
-                'layouts.auth',
+                'components.layouts.auth',
                 [
                     'title' => $this->title
                 ]

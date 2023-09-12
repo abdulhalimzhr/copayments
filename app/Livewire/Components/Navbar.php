@@ -6,6 +6,9 @@ use Livewire\Component;
 
 class Navbar extends Component
 {
+    /**
+     * @var string
+     */
     public $page = '';
 
     public function render()

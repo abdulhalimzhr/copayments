@@ -5,19 +5,17 @@ DOCKER_PHP_CONTAINER_EXEC = $(DOCKER_COMPOSE) exec app
 DOCKER_PHP_EXECUTABLE_CMD = $(DOCKER_PHP_CONTAINER_EXEC) php
 
 CMD_ARTISAN = $(DOCKER_PHP_EXECUTABLE_CMD) artisan
-CMD_COMPOSER = $(DOCKER_PHP_EXECUTABLE_CMD) -dmemory_limit=1G /usr/bin/composer
+CMD_COMPOSER = $(DOCKER_PHP_CONTAINER_EXEC) composer
 CMD_NPM = $(DOCKER_COMPOSE) run --rm node npm
 
 setup:
 	$(DOCKER_COMPOSE) up -d --build
-	$(CMD_COMPOSER) install
 	$(CMD_ARTISAN) key:generate
-	$(CMD_ARTISAN) jwt:secret
+	$(CMD_COMPOSER) install
 	$(CMD_ARTISAN) migrate --seed
 	$(CMD_ARTISAN) config:cache
 	$(CMD_ARTISAN) route:cache
 	$(CMD_ARTISAN) view:cache
-	$(CMD_ARTISAN) l5-swagger:generate
 
 start:
 	$(DOCKER_COMPOSE) up -d
