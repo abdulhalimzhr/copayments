@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\Dashboard;
+namespace App\Livewire;
 
 use Livewire\Component;
 
 class Home extends Component
 {
-    public $title = 'Dashboard';
+    public $title = 'Home';
 
     public function render()
     {
-        return view('livewire.dashboard.home')
+        return view('livewire.home')
             ->layout(
                 'layouts.app',
                 [

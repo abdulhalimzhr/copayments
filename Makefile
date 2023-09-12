@@ -6,15 +6,39 @@ DOCKER_PHP_EXECUTABLE_CMD = $(DOCKER_PHP_CONTAINER_EXEC) php
 
 CMD_ARTISAN = $(DOCKER_PHP_EXECUTABLE_CMD) artisan
 CMD_COMPOSER = $(DOCKER_PHP_EXECUTABLE_CMD) -dmemory_limit=1G /usr/bin/composer
+CMD_NPM = $(DOCKER_COMPOSE) run --rm node npm
+
+setup:
+	$(DOCKER_COMPOSE) up -d --build
+	$(CMD_COMPOSER) install
+	$(CMD_ARTISAN) key:generate
+	$(CMD_ARTISAN) jwt:secret
+	$(CMD_ARTISAN) migrate --seed
+	$(CMD_ARTISAN) config:cache
+	$(CMD_ARTISAN) route:cache
+	$(CMD_ARTISAN) view:cache
+	$(CMD_ARTISAN) l5-swagger:generate
 
 start:
 	$(DOCKER_COMPOSE) up -d
+
+restart:
+	$(DOCKER_COMPOSE) restart
+
+build:
+	$(DOCKER_COMPOSE) up -d --build
 
 stop:
 	$(DOCKER_COMPOSE) stop
 
 down:
 	$(DOCKER_COMPOSE) down
+
+cache:
+	$(CMD_ARTISAN) config:cache
+	$(CMD_ARTISAN) route:cache
+	$(CMD_ARTISAN) view:cache
+	$(CMD_ARTISAN) optimize:clear
 
 install:
 ifeq (,$(wildcard ./.env))
@@ -24,16 +48,15 @@ endif
 ifeq (,$(wildcard ./vendor/))
 	$(CMD_COMPOSER) install
 endif
-	$(CMD_ARTISAN) queue:table
-	$(CMD_ARTISAN) migrate
-	$(CMD_ARTISAN) db:seed
+ifeq (,$(wildcard ./node_modules/))
+	$(CMD_NPM) install
+endif
 
 logs:
 	$(DOCKER_COMPOSE) logs -ft --tail=50
 
 reset:
-	$(CMD_ARTISAN) migrate:fresh
-	$(CMD_ARTISAN) db:seed --class=DatabaseSeeder
+	$(CMD_ARTISAN) migrate:fresh --seed
 
 swagger-generate:
 	$(CMD_ARTISAN) l5-swagger:generate
@@ -60,9 +83,14 @@ help:
 	@echo "Laravel Docker Makefile"
 	@echo ""
 	@echo "Usage:"
-	@echo "  make start                 Start Docker containers"
-	@echo "  make stop                  Stop Docker containers"
-	@echo "  make install               Install Laravel application and seed the database"
+	@echo "  make setup                 Setup the project"
+	@echo "  make start                 Start the project"
+	@echo "  make restart               Restart the project"
+	@echo "  make build                 Build the project"
+	@echo "  make stop                  Stop the project"
+	@echo "  make down                  Stop and remove containers, networks, images, and volumes"
+	@echo "  make cache                 Clear cache"
+	@echo "  make install               Install the project"
 	@echo "  make logs                  Show container logs"
 	@echo "  make reset                 Reset the database and seed it"
 	@echo "  make swagger-generate      Generate Swagger documentation"
