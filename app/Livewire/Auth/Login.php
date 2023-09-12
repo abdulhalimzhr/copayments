@@ -11,7 +11,7 @@ class Login extends Component
     /**
      * @var string
      */
-    public $title = 'Login - Cocol Payment';
+    public $title = 'Login - CoPayments';
 
     /**
      * @var string

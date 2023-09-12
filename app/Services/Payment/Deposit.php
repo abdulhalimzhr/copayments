@@ -24,10 +24,10 @@ class Deposit extends AbstractService
       ];
 
       $params = [
-        'order_id'  => uniqid(),
+        'order_id'  => uniqid('dp_'),
         'amount'    => $dto->getAmount(),
         'type'      => self::DEPOSIT,
-        'timestamp' => date('Y-m-d H:i:s', strtotime(now()->timestamp))
+        'timestamp' => date('Y-m-d H:i:s')
       ];
 
       $result = $this->callApi(env('THIRD_PARTY_API_URL'), self::POST, $header, $params);
@@ -60,7 +60,7 @@ class Deposit extends AbstractService
 
       return [
         'status'  => true,
-        'message' => 'Deposit queued successfully'
+        'message' => 'Deposit is in progress. Please wait up to 5 minutes for the process to complete.'
       ];
     } catch (\Exception $e) {
 

@@ -3,59 +3,35 @@
 namespace App\Services\Payment;
 
 use App\Services\AbstractService;
-use App\Models\Transaction;
-use App\Models\User;
+use App\DTO\WithdrawDTO;
+use App\Jobs\WalletJob;
+use Illuminate\Support\Facades\Log;
 
 class Withdraw extends AbstractService
 {
   /**
-   * @var User
-   */
-  private $user;
-
-  /**
-   * @var Transaction
-   */
-  private $transaction;
-
-  /**
-   * @param User $user
-   * @param Transaction $transaction
-   */
-  public function __construct(User $user, Transaction $transaction)
-  {
-    $this->user = $user;
-    $this->transaction = $transaction;
-  }
-
-  /**
-   * @param array $data
+   * @param WithdrawDTO $dto
    * 
    * @return array
    */
-  public function withdraw(array $data): array
+  public function withdraw($dto): array
   {
-    $user = $this->user->find($data['user_id']);
+    $params = [
+      'order_id' => uniqid('wd_'),
+      'amount'   => $dto->getAmount(),
+      'type'     => self::WITHDRAW
+    ];
 
-    if ($user->balance < $data['amount']) {
-      return [
-        'status' => false,
-        'message' => 'Insufficient balance'
-      ];
-    }
+    WalletJob::dispatch($dto->getUserId(), $params);
 
-    $user->balance -= $data['amount'];
-    $user->save();
-
-    $this->transaction->create([
-      'user_id' => $data['user_id'],
-      'amount' => $data['amount'],
-      'type' => 'withdraw'
+    Log::info('Withdraw Queued: ', [
+      'user_id' => $dto->getUserId(),
+      'params'  => $params
     ]);
 
     return [
       'status' => true,
-      'message' => 'Withdraw successful'
+      'message' => 'Withdrawal in progress. Please wait up to 3 days for the process to complete.'
     ];
   }
 }

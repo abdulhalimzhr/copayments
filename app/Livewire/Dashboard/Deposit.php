@@ -20,9 +20,9 @@ class Deposit extends Component
       ]);
 
       $deposit = new DepositService();
-      $deposit->pay(new DepositDTO($this->amount));
+      $result  = $deposit->pay(new DepositDTO($this->amount));
 
-      session()->flash('deposits', 'Deposit success.');
+      session()->flash('deposits', $result['message']);
     } catch (\Exception $e) {
       session()->flash('deposite', 'Deposit failed. Error: ' . $e->getMessage());
     }

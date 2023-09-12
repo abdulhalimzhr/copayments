@@ -1,7 +1,7 @@
 <section class="section">
   <div class="container-login">
     <a href="#" class="logo-text">
-      Cocol Payments
+      {{ env('APP_NAME') }}
     </a>
     <div class="card">
       <div class="card__inner">

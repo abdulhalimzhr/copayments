@@ -27,6 +27,9 @@
           Date
         </th>
         <th scope="col" class="px-6 py-3">
+          Order Id
+        </th>
+        <th scope="col" class="px-6 py-3">
           Amount
         </th>
         <th scope="col" class="px-6 py-3">
@@ -35,6 +38,9 @@
         <th scope="col" class="px-6 py-3">
           Status
         </th>
+        <th scope="col" class="px-6 py-3">
+          Description
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -42,6 +48,7 @@
       <tr class="border-b dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" wire:key="$value->id">
         <td class="px-6 py-4">{{ $item + 1 }}</td>
         <td class="px-6 py-4">{{ $this->dateFormat($value->created_at) }}</td>
+        <td class="px-6 py-4">{{ $value->order_id }}</td>
         <td class="px-6 py-4">{{ $this->currencyFormat($value->amount) }}</td>
         <td class="px-6 py-4">{{ $value->type > 1 ? 'Withdraw' : 'Deposit' }}</td>
         <td class="
@@ -52,6 +59,7 @@
           !text-red-500
           @endif
         ">{{ $value['status'] ? 'Success' : 'Failed' }}</td>
+        <td class="px-6 py-4">{{ $value->description }}</td>
       </tr>
       @endforeach
     </tbody>

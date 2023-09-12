@@ -15,14 +15,13 @@ class WalletJob implements ShouldQueue
 {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-  public $orderId;
   public $amount;
   public $type;
   public $userId;
+  public $orderId;
 
   /**
    * @param int $userId
-   * @param int $amount
    * @param array $data
    */
   public function __construct(int $userId, array $data)
@@ -39,25 +38,37 @@ class WalletJob implements ShouldQueue
   public function handle(Wallet $wallet): array
   {
     Log::info('Wallet Job Started: ', [
-      'user_id' => $this->userId,
-      'amount'  => $this->amount,
+      'user_id'  => $this->userId,
+      'amount'   => $this->amount,
       'order_id' => $this->orderId,
-      'type'    => $this->type
+      'type'     => $this->type
     ]);
 
     $result = null;
 
     if ($this->type === $wallet::DEPOSIT) {
+      Log::info('Wallet Job Deposit: ', [
+        'user_id'  => $this->userId,
+        'amount'   => $this->amount,
+        'order_id' => $this->orderId,
+      ]);
+
       $result = $wallet->deposit([
-        'user_id'     => $this->userId,
-        'amount'      => $this->amount,
-        'order_id'    => $this->orderId
+        'user_id'  => $this->userId,
+        'amount'   => $this->amount,
+        'order_id' => $this->orderId
       ]);
     } elseif ($this->type === $wallet::WITHDRAW) {
+      Log::info('Wallet Job Withdraw: ', [
+        'user_id'  => $this->userId,
+        'amount'   => $this->amount,
+        'order_id' => $this->orderId,
+      ]);
+
       $result = $wallet->withdraw([
-        'user_id'     => $this->userId,
-        'amount'      => $this->amount,
-        'order_id'    => $this->orderId,
+        'user_id'  => $this->userId,
+        'amount'   => $this->amount,
+        'order_id' => $this->orderId,
       ]);
     }
 
