@@ -7,58 +7,64 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Reactive;
 use App\Services\Payment\ListTransactions as ListTransactionsService;
 use App\DTO\TransactionListDTO;
+use Livewire\WithPagination;
 
 class Home extends Component
 {
-    #[Reactive]
-    #[Title('Dashboard')]
-    public $transactions = null;
-    public $perPage = 10;
-    public $search  = '';
-    public $balance = 0;
+  use WithPagination;
 
-    public function mount()
-    {
-        $this->loadTransactions();
-        $this->balance = $this->currencyFormat(auth()->user()->balance);
-    }
+  #[Title('Dashboard')]
 
-    /**
-     * Reload Data if any search input
-     * @return void
-     */
-    public function updatedSearch()
-    {
-        $this->loadTransactions();
-    }
+  public $perPage = 10;
+  public $search  = '';
+  public $balance = 0;
+  public $transactions = null;
 
-    /**
-     * @return void
-     */
-    public function loadTransactions()
-    {
-        $listTransaction = new ListTransactionsService();
-        $result = $listTransaction->getList(
-            new TransactionListDTO(
-                $this->perPage,
-                $this->search
-            )
-        );
+  public function mount()
+  {
+    $this->transactions = $this->loadTransactions();
+    $this->balance = $this->currencyFormat(auth()->user()->balance);
+  }
 
-        if ($result['status']) {
-            $this->transactions = $result['data'];
-        } else {
-            $this->addError('search', $result['message']);
-        }
-    }
+  /**
+   * Reload Data if any search input
+   * @return void
+   */
+  public function updatedSearch()
+  {
+    $this->transactions = $this->loadTransactions();
+  }
 
-    private function currencyFormat($value)
-    {
-        return number_format($value, 2, ',', '.');
-    }
+  /**
+   * @return LengthAwarePaginator|bool
+   */
+  public function loadTransactions()
+  {
+    $listTransaction = new ListTransactionsService();
+    $result = $listTransaction->getList(
+      new TransactionListDTO(
+        $this->perPage,
+        $this->search
+      )
+    );
 
-    public function render()
-    {
-        return view('livewire.dashboard.home');
-    }
+    return $result;
+  }
+
+  private function currencyFormat($value)
+  {
+    return number_format($value, 2, ',', '.');
+  }
+
+  public function render()
+  {
+    $links              = $this->transactions;
+    $this->transactions = collect($this->transactions->items());
+
+    return view('livewire.dashboard.home', [
+      'transactions' => $this->transactions,
+      'balance'      => $this->balance,
+      'links'        => $links
+    ]);
+  }
 }

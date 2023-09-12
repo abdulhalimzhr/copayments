@@ -5,17 +5,18 @@ DOCKER_PHP_CONTAINER_EXEC = $(DOCKER_COMPOSE) exec app
 DOCKER_PHP_EXECUTABLE_CMD = $(DOCKER_PHP_CONTAINER_EXEC) php
 
 CMD_ARTISAN = $(DOCKER_PHP_EXECUTABLE_CMD) artisan
-CMD_COMPOSER = $(DOCKER_PHP_CONTAINER_EXEC) composer
-CMD_NPM = $(DOCKER_COMPOSE) run --rm node npm
+CMD_COMPOSER = composer
+CMD_NPM = npm
 
 setup:
 	$(DOCKER_COMPOSE) up -d --build
 	$(CMD_ARTISAN) key:generate
 	$(CMD_COMPOSER) install
-	$(CMD_ARTISAN) migrate --seed
-	$(CMD_ARTISAN) config:cache
-	$(CMD_ARTISAN) route:cache
-	$(CMD_ARTISAN) view:cache
+	$(CMD_NPM) install
+	$(CMD_ARTISAN) migrate:fresh --seed
+	$(CMD_ARTISAN) config:clear
+	$(CMD_ARTISAN) route:clear
+	$(CMD_ARTISAN) view:clear
 
 start:
 	$(DOCKER_COMPOSE) up -d
@@ -33,9 +34,9 @@ down:
 	$(DOCKER_COMPOSE) down
 
 cache:
-	$(CMD_ARTISAN) config:cache
-	$(CMD_ARTISAN) route:cache
-	$(CMD_ARTISAN) view:cache
+	$(CMD_ARTISAN) config:clear
+	$(CMD_ARTISAN) route:clear
+	$(CMD_ARTISAN) view:clear
 	$(CMD_ARTISAN) optimize:clear
 
 install:

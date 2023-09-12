@@ -25,7 +25,7 @@ class Deposit extends Component
         'user_id'     => $user->id,
         'amount'      => $this->amount,
         'type'        => 1, // 1 = deposit, 2 = withdraw
-        'status'      => 'success',
+        'status'      => 1, // 1 = success, 2 = failed
         'description' => 'Deposit success.'
       ]);
 

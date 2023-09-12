@@ -17,6 +17,7 @@ return new class extends Migration
             $table->double('amount');
             $table->integer('type');
             $table->integer('status');
+            $table->string('description');
             $table->timestamps();
         });
     }

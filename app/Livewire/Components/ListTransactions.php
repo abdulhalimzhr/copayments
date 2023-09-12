@@ -13,7 +13,7 @@ class ListTransactions extends Component
   {
     return view('livewire.components.list-transactions', [
       'transactions' => $this->transactions,
-      'search'      => $this->search,
+      'search'       => $this->search,
     ]);
   }
 }

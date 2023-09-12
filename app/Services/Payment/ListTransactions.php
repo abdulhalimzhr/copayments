@@ -4,20 +4,19 @@ namespace App\Services\Payment;
 
 use App\Models\Transaction;
 use App\DTO\TransactionListDTO;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ListTransactions
 {
   /**
    * @param TransactionListDTO $dto
-   * @return array
+   * @return LengthAwarePaginator|bool
    */
-  public function getList(TransactionListDTO $dto): array
+  public function getList(TransactionListDTO $dto): LengthAwarePaginator|bool
   {
     try {
-      $transaction = new Transaction();
-
       $user = auth()->user();
-      $data = $transaction->where('user_id', $user->id);
+      $data = Transaction::where('user_id', $user->id);
 
       if (!empty($dto->getSearch())) {
         $data = $data->where('description', 'like', '%' . $dto->getSearch() . '%')
@@ -27,17 +26,12 @@ class ListTransactions
           ->orWhere('id', $dto->getSearch());
       }
 
-      $data = $data->isNotEmpty() ? $data->paginate($dto->getPerPage()) : null;
+      $data = $data->orderBy('created_at', 'desc');
+      $data = $data->paginate($dto->getPerPage());
 
-      return [
-        'status' => true,
-        'data'   => $data,
-      ];
+      return $data;
     } catch (\Exception $e) {
-      return [
-        'status'  => false,
-        'message' => $e->getMessage(),
-      ];
+      return false;
     }
   }
 }
