@@ -15,7 +15,7 @@
         <form wire:submit.prevent="deposit">
             <div class="flex flex-col">
                 <label for="deposit" class="mb-3">Amount: </label>
-                <input type="text" id="deposit" wire:model.live="amount" class="table__search-input" placeholder="e.g 50000" required>
+                <input type="text" id="deposit" wire:model.live="amount" class="table__search-input" placeholder="e.g 50000.12" required>
             </div>
             <div class="flex flex-col">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5">
