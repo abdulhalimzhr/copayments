@@ -1,6 +1,7 @@
 .SILENT:
 
-DOCKER_COMPOSE = docker-compose -f docker-compose-m1.yml
+DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE_M1 = docker-compose -f docker-compose-m1.yml
 DOCKER_PHP_CONTAINER_EXEC = $(DOCKER_COMPOSE) exec ccapp
 DOCKER_PHP_EXECUTABLE_CMD = $(DOCKER_PHP_CONTAINER_EXEC) php
 
@@ -30,11 +31,12 @@ endif
 	$(CMD_NPM) run build
 	$(CMD_NPM) run dev
 
+
 setup-m1:
 ifeq (,$(wildcard ./.env))
 	cp .env.example .env
 endif
-	$(DOCKER_COMPOSE) up -d --build
+	$(DOCKER_COMPOSE_M1) up -d --build
 ifeq (,$(wildcard ./vendor/))
 	$(CMD_COMPOSER) install
 endif
@@ -51,10 +53,16 @@ endif
 	$(CMD_NPM) run dev
 
 start:
-	$(DOCKER_COMPOSE) up -d
+    $(DOCKER_COMPOSE) up -d
+
+start-m1:
+	$(DOCKER_COMPOSE_M1) up -d
 
 restart:
 	$(DOCKER_COMPOSE) restart
+
+build-m1:
+	$(DOCKER_COMPOSE_M1) up -d --build
 
 build:
 	$(DOCKER_COMPOSE) up -d --build
@@ -94,9 +102,12 @@ help:
 	@echo ""
 	@echo "Usage:"
 	@echo "  make setup                 Setup the project"
+	@echo "  make setup-m1              Setup the project for M1 Mac"
 	@echo "  make start                 Start the project"
+	@echo "  make start-m1              Start the project for M1 Mac"
 	@echo "  make restart               Restart the project"
 	@echo "  make build                 Build the project"
+	@echo "  make build-m1              Build the project for M1 Mac"
 	@echo "  make stop                  Stop the project"
 	@echo "  make down                  Stop and remove containers, networks, images, and volumes"
 	@echo "  make cache                 Clear cache"
