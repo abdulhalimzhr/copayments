@@ -1,0 +1,82 @@
+version: '3.9'
+services:
+  ccapp:
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: codingcollective/php
+    container_name: ccapp
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: ccapp
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - code
+  ccwebserver:
+    platform: linux/arm/v8
+    image: nginx:alpine
+    container_name: ccwebserver
+    restart: always
+    tty: true
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - code
+  mysql:
+    platform: linux/x86_64
+    image:
+    container_name: mysql
+    ports:
+      - '${FORWARD_DB_PORT:-3310}:3306'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'mysql:/var/lib/mysql'
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - code
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - '-p${DB_PASSWORD}'
+      retries: 3
+      timeout: 5s
+  ccworker:
+    image: codingcollective/php
+    container_name: ccworker
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: worker
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - code
+    command: php artisan queue:work
+
+networks:
+  code:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local

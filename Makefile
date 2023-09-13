@@ -30,6 +30,26 @@ endif
 	$(CMD_NPM) run build
 	$(CMD_NPM) run dev
 
+setup-m1:
+	$(DOCKER_COMPOSE) up -d --build
+ifeq (,$(wildcard ./.env))
+	cp .env.example .env
+endif
+ifeq (,$(wildcard ./vendor/))
+	$(CMD_COMPOSER) install
+endif
+ifeq (,$(wildcard ./node_modules/))
+	$(CMD_NPM) install
+endif
+	$(CMD_ARTISAN) key:generate
+	$(CMD_ARTISAN) migrate:fresh --seed
+	$(CMD_ARTISAN) config:clear
+	$(CMD_ARTISAN) route:clear
+	$(CMD_ARTISAN) view:clear
+	$(CMD_COMPOSER) dump-autoload
+	$(CMD_NPM) run build
+	$(CMD_NPM) run dev
+
 start:
 	$(DOCKER_COMPOSE) up -d
 

@@ -15,7 +15,22 @@ Please make sure you have the following tools installed before setting up this p
 
 ### Setup
 
-1. Open your terminal/command line within the project directory and run `make setup`. This process will take around 5-10 minutes to finish the setup process at the localhost
+1. Open your terminal/command line within the project directory and run
+
+   For Windows & other OS:
+
+   ```
+   make setup
+   ```
+
+   For Mac M1:
+
+   ```
+   make setup-m1
+   ```
+
+   This process will take around 5-10 minutes to finish the setup process at the localhost
+
 2. After the setup is done, the apps can now be accessed through `http://localhost`
 
 ### Running the Application
