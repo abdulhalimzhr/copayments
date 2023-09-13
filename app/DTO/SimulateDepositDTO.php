@@ -10,7 +10,7 @@ class SimulateDepositDTO extends AbstractDTO
     private $order_id;
 
     /**
-     * @var int
+     * @var float
      */
     private $amount;
 

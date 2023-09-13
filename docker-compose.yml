@@ -1,15 +1,15 @@
 version: '3.9'
 services:
-  app:
+  ccapp:
     build:
       context: .
       dockerfile: Dockerfile
     image: codingcollective/php
-    container_name: app
+    container_name: ccapp
     restart: always
     tty: true
     environment:
-      SERVICE_NAME: app
+      SERVICE_NAME: ccapp
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
@@ -17,9 +17,9 @@ services:
       - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - code
-  webserver:
+  ccwebserver:
     image: nginx:alpine
-    container_name: webserver
+    container_name: ccwebserver
     restart: always
     tty: true
     ports:
@@ -55,9 +55,9 @@ services:
         - '-p${DB_PASSWORD}'
       retries: 3
       timeout: 5s
-  worker:
+  ccworker:
     image: codingcollective/php
-    container_name: worker
+    container_name: ccworker
     restart: always
     tty: true
     environment:

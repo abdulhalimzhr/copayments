@@ -5,12 +5,12 @@ namespace App\DTO;
 class WithdrawDTO extends AbstractDTO
 {
   /**
-   * @var int
+   * @var float
    */
   private $amount;
 
   /**
-   * @param int $amount
+   * @param float $amount
    */
   public function __construct($amount)
   {
@@ -19,9 +19,9 @@ class WithdrawDTO extends AbstractDTO
   }
 
   /**
-   * @return int
+   * @return float
    */
-  public function getAmount(): int
+  public function getAmount(): float
   {
     return $this->amount;
   }

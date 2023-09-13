@@ -1,7 +1,7 @@
 .SILENT:
 
 DOCKER_COMPOSE = docker-compose
-DOCKER_PHP_CONTAINER_EXEC = $(DOCKER_COMPOSE) exec app
+DOCKER_PHP_CONTAINER_EXEC = $(DOCKER_COMPOSE) exec ccapp
 DOCKER_PHP_EXECUTABLE_CMD = $(DOCKER_PHP_CONTAINER_EXEC) php
 
 CMD_ARTISAN = $(DOCKER_PHP_EXECUTABLE_CMD) artisan
@@ -12,7 +12,6 @@ setup:
 	$(DOCKER_COMPOSE) up -d --build
 ifeq (,$(wildcard ./.env))
 	cp .env.example .env
-	$(CMD_ARTISAN) key:generate
 endif
 ifeq (,$(wildcard ./vendor/))
 	$(CMD_COMPOSER) install
@@ -21,10 +20,15 @@ ifeq (,$(wildcard ./node_modules/))
 	$(CMD_NPM) install
 endif
 	$(CMD_ARTISAN) key:generate
+	echo "Waiting for MySQL to be ready..."
+	timeout 3
 	$(CMD_ARTISAN) migrate:fresh --seed
 	$(CMD_ARTISAN) config:clear
 	$(CMD_ARTISAN) route:clear
 	$(CMD_ARTISAN) view:clear
+	$(CMD_COMPOSER) dump-autoload
+	$(CMD_NPM) run build
+	$(CMD_NPM) run dev
 
 start:
 	$(DOCKER_COMPOSE) up -d
@@ -53,9 +57,6 @@ logs:
 reset:
 	$(CMD_ARTISAN) migrate:fresh --seed
 
-swagger-generate:
-	$(CMD_ARTISAN) l5-swagger:generate
-
 route-list:
 	$(CMD_ARTISAN) route:list
 
@@ -71,9 +72,6 @@ queue-work:
 queue-listen:
 	$(DOCKER_PHP_CONTAINER_EXEC) php artisan queue:listen
 
-dispatch-update-wallet:
-	$(DOCKER_PHP_CONTAINER_EXEC) php artisan tinker --execute "dispatch(new UpdateWallet($$CUSTOMER_ID, $$AMOUNT));"
-
 help:
 	@echo "Laravel Docker Makefile"
 	@echo ""
@@ -88,10 +86,8 @@ help:
 	@echo "  make install               Install the project"
 	@echo "  make logs                  Show container logs"
 	@echo "  make reset                 Reset the database and seed it"
-	@echo "  make swagger-generate      Generate Swagger documentation"
 	@echo "  make route-list            List routes"
 	@echo "  make bash                  Access the app container bash"
 	@echo "  make test-unit             Run unit tests"
 	@echo "  make queue-work            Start the queue worker"
 	@echo "  make queue-listen          Start the queue listener"
-	@echo "  make dispatch-update-wallet  Dispatch the UpdateWallet job example: make dispatch-update-wallet CUSTOMER_ID=123 AMOUNT=123.00"

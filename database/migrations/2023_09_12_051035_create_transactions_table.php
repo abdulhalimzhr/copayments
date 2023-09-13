@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('order_id');
-            $table->double('amount');
+            $table->double('amount', 11, 2);
             $table->integer('type');
             $table->integer('status');
             $table->longText('description');

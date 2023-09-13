@@ -60,7 +60,7 @@ class Deposit extends AbstractService
 
       return [
         'status'  => true,
-        'message' => 'Deposit is in progress. Please wait up to 5 minutes for the process to complete.'
+        'message' => 'Deposit is in progress. Please wait up to 1 minutes for the process to complete.'
       ];
     } catch (\Exception $e) {
 

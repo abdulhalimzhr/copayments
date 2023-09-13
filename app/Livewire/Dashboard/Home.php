@@ -23,7 +23,7 @@ class Home extends Component
   public function mount()
   {
     $this->transactions = $this->loadTransactions();
-    $this->balance = $this->currencyFormat(auth()->user()->balance);
+    $this->balance      = auth()->user()->balance;
   }
 
   /**
@@ -50,11 +50,11 @@ class Home extends Component
   }
 
   /**
-   * @param int $value
+   * @param float $value
    * 
    * @return string
    */
-  public function currencyFormat(int $value): string
+  public function currencyFormat(float $value): string
   {
     return 'Rp' . number_format($value, 2, ',', '.');
   }

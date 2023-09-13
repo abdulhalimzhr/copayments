@@ -21,13 +21,6 @@ class VerifyBearerToken
         $token       = env('THIRD_PARTY_API_TOKEN');
         $bearerToken = trim($request->bearerToken());
 
-        Log::info('Verify Bearer Token: ', [
-            'request'     => $request->bearerToken(),
-            'token'       => $token,
-            'bearerToken' => $bearerToken,
-            'result'      => $bearerToken === $token
-        ]);
-
         if (
             $bearerToken !== $token ||
             $bearerToken == null ||
