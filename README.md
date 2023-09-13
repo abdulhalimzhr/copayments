@@ -34,7 +34,7 @@ This application uses the following API:
 #### Deposit
 
 - URL: http://localhost/api/simulate-deposit
-- Authentication: Bearer YWJkdWwgaGFsaW0=
+- Authentication: `Bearer YWJkdWwgaGFsaW0=` (base64 encoded)
 - Request Body (example)
   ```
       {
