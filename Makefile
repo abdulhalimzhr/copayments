@@ -9,10 +9,10 @@ CMD_COMPOSER = composer
 CMD_NPM = npm
 
 setup:
-	$(DOCKER_COMPOSE) up -d --build
 ifeq (,$(wildcard ./.env))
 	cp .env.example .env
 endif
+	$(DOCKER_COMPOSE) up -d --build
 ifeq (,$(wildcard ./vendor/))
 	$(CMD_COMPOSER) install
 endif
@@ -31,10 +31,10 @@ endif
 	$(CMD_NPM) run dev
 
 setup-m1:
-	$(DOCKER_COMPOSE) up -d --build
 ifeq (,$(wildcard ./.env))
 	cp .env.example .env
 endif
+	$(DOCKER_COMPOSE) up -d --build
 ifeq (,$(wildcard ./vendor/))
 	$(CMD_COMPOSER) install
 endif
