@@ -190,8 +190,8 @@ class Wallet extends AbstractService
   private function checkExistingTransaction($data)
   {
     $result = $this->transaction->where('order_id', $data['order_id'])
-      ->andWhere('user_id', $data['user_id'])
-      ->andWhere('status', self::FAILED)
+      ->where('user_id', $data['user_id'])
+      ->where('status', self::FAILED)
       ->first();
 
     Log::info('Failed Transaction Existing: ', [
