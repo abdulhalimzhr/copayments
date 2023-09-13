@@ -2,15 +2,15 @@
   <div class="p-5">
     <h1>Your balance : {{ $this->currencyFormat($balance) }}</h1>
   </div>
-  <div class="p-4 bg-white dark:bg-gray-900 flex">
-    <label for="table-search" class="sr-only">Search</label>
+  <div class="table-search">
+    <label for="table-search-input" class="sr-only">Search</label>
     <div class="relative mt-1">
-      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+      <div class="table__search-input-icon">
         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
         </svg>
       </div>
-      <input type="text" wire:loading.attr="disabled" wire:moEel.live="search" id="table-search" class="table__search-input" placeholder="Search...">
+      <input type="text" wire:loading.attr="disabled" wire:model.live="search" id="table-search-input" class="table__search-input" placeholder="Search...">
     </div>
     <div wire:loading wire:target="search" class="my-auto p-3">
       <i class="fas fa-spinner fa-spin"></i>
@@ -45,7 +45,7 @@
     </thead>
     <tbody>
       @foreach ($transactions as $item => $value)
-      <tr class="border-b dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600" wire:key="$value->id">
+      <tr class="table__tr" wire:key="$value->id">
         <td class="px-6 py-4">{{ $item + 1 }}</td>
         <td class="px-6 py-4">{{ $this->dateFormat($value->created_at) }}</td>
         <td class="px-6 py-4">{{ $value->order_id }}</td>

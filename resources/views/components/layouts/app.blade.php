@@ -9,14 +9,16 @@
   <title>{{ $title ?? 'Page Title' }} - {{ env('APP_NAME') }}</title>
 </head>
 
-<body class="bg-white dark:bg-gray-900" x-data="{ darkMode: false }" x-init="if (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+<body class="bg-white dark:bg-gray-900" x-data="{ darkMode: false }" x-init="
+    if (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       localStorage.setItem('darkMode', JSON.stringify(true));
     }
     darkMode = JSON.parse(localStorage.getItem('darkMode'));
-    $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" x-cloak :class="{'dark' : darkMode === true}">
+    $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))
+  " x-cloak :class="{'dark' : darkMode === true}">
   <livewire:components.navbar :page="$title" />
   <div class="container mt-5 mx-auto px-4">
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg w-full dark:bg-gray-900">
+    <div class="container-card">
       {{ $slot }}
     </div>
   </div>

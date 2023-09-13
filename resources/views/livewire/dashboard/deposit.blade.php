@@ -18,7 +18,7 @@
         <input type="text" id="deposit" wire:model.live="amount" class="table__search-input" placeholder="e.g 50000.12" required>
       </div>
       <div class="flex flex-col">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5">
+        <button type="submit" class="btn-primary">
           Deposit
           <span wire:loading wire:target="deposit" class="ml-3">
             <i class="fas fa-spinner fa-spin"></i>

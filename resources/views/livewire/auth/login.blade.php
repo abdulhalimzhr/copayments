@@ -17,12 +17,12 @@
         </div>
         <form class="login-form" wire:submit.prevent="login">
           <div>
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+            <label for="email" class="login-form__label">Your email</label>
             <input type="email" wire:model="email" id="email" class="login-form__input" placeholder="name@company.com" required="">
             @error('email') <span class="form__error-message">{{ $message }}</span> @enderror
           </div>
           <div>
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+            <label for="password" class="login-form__label">Password</label>
             <input type="password" wire:model="password" id="password" placeholder="••••••••" class="login-form__input" required="">
             @error('password') <span class="form__error-message">{{ $message }}</span> @enderror
           </div>
