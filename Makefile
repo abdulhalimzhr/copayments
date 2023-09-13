@@ -1,6 +1,6 @@
 .SILENT:
 
-DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE = docker-compose -f docker-compose-m1.yml
 DOCKER_PHP_CONTAINER_EXEC = $(DOCKER_COMPOSE) exec ccapp
 DOCKER_PHP_EXECUTABLE_CMD = $(DOCKER_PHP_CONTAINER_EXEC) php
 
