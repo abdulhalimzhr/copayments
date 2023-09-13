@@ -29,6 +29,8 @@ setup-m1: .env
 	$(CMD_COMPOSER) install
 	$(CMD_NPM) install
 	$(CMD_ARTISAN) key:generate
+	echo "Waiting for MySQL to be ready..."
+	sleep 3
 	$(CMD_ARTISAN) migrate:fresh --seed
 	$(CMD_ARTISAN) config:clear
 	$(CMD_ARTISAN) route:clear
