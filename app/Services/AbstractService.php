@@ -10,27 +10,27 @@ class AbstractService
   /**
    * @var int
    */
-  protected const DEPOSIT = 1;
+  public const DEPOSIT = 1;
 
   /**
    * 
    */
-  protected const WITHDRAW = 2;
+  public const WITHDRAW = 2;
 
   /**
    * @var string
    */
-  protected const POST = 'POST';
+  public const POST = 'POST';
 
   /**
    * @var int
    */
-  protected const SUCCESS = 1;
+  public const SUCCESS = 1;
 
   /**
    * @var int
    */
-  protected const FAILED = 0;
+  public const FAILED = 0;
 
   /**
    * @param string $url
