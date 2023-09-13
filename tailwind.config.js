@@ -55,6 +55,22 @@ export default {
         'Segoe UI Symbol',
         'Noto Color Emoji'
       ]
+    },
+    container: {
+      padding: {
+        DEFAULT: '1rem',
+        sm: '2rem',
+        lg: '4rem',
+        xl: '5rem',
+        '2xl': '6rem'
+      },
+      screens: {
+        sm: '600px',
+        md: '728px',
+        lg: '984px',
+        xl: '1240px',
+        '2xl': '1280px'
+      }
     }
   },
   plugins: []
