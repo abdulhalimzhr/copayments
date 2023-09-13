@@ -56,7 +56,7 @@ This application uses the following API:
   }
   ```
 
-#### Makefile Usages
+### Makefile Usages
 
 You can use the following commands to manage this project:
 
@@ -75,7 +75,7 @@ You can use the following commands to manage this project:
 - `make queue-listen`: Starts the queue listener.
 - `make help`: Displays a list of available commands.
 
-#### Preview
+### Preview
 
 1. Home
    ![image](https://github.com/abdulhalimzhr/copayments/assets/75671219/52201158-62a0-49d4-a771-ec165361a124)
