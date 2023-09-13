@@ -26,6 +26,7 @@ class ListTransactions extends AbstractService
           ->orWhere('amount', 'like', '%' . $dto->getSearch() . '%')
           ->orWhere('type', 'like', '%' . $dto->getSearch() . '%')
           ->orWhere('status', 'like', '%' . $dto->getSearch() . '%')
+          ->orWhere('order_id', 'like', '%' . $dto->getSearch() . '%')
           ->orWhere('id', $dto->getSearch());
       }
 
