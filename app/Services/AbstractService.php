@@ -7,11 +7,30 @@ use Illuminate\Support\Facades\Log;
 
 class AbstractService
 {
-  const DEPOSIT  = 1;
-  const WITHDRAW = 2;
-  const POST     = 'POST';
-  const SUCCESS  = 1;
-  const FAILED   = 0;
+  /**
+   * @var int
+   */
+  protected const DEPOSIT = 1;
+
+  /**
+   * 
+   */
+  protected const WITHDRAW = 2;
+
+  /**
+   * @var string
+   */
+  protected const POST = 'POST';
+
+  /**
+   * @var int
+   */
+  protected const SUCCESS = 1;
+
+  /**
+   * @var int
+   */
+  protected const FAILED = 0;
 
   /**
    * @param string $url

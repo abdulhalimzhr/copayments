@@ -31,7 +31,7 @@ class Withdraw extends AbstractService
 
     return [
       'status' => true,
-      'message' => 'Withdrawal in progress. Please wait up to 3 days for the process to complete.'
+      'message' => 'Withdrawal in progress. Please wait up to a few minutes for the process to complete.'
     ];
   }
 }

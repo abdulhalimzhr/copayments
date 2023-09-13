@@ -7,6 +7,7 @@ use Livewire\Component;
 use Livewire\Attributes\Title;
 use App\Services\Payment\ListTransactions as ListTransactionsService;
 use App\DTO\TransactionListDTO;
+use Illuminate\Database\Eloquent\Builder;
 
 class Home extends Component
 {
@@ -29,15 +30,9 @@ class Home extends Component
    */
   public $balance = 0;
 
-  /**
-   * @var null|LengthAwarePaginator
-   */
-  protected $transactions = null;
-
   public function mount()
   {
-    $this->transactions = $this->loadTransactions();
-    $this->balance      = auth()->user()->balance;
+    $this->balance = auth()->user()->balance;
   }
 
   /**
@@ -47,13 +42,12 @@ class Home extends Component
   public function updatedSearch()
   {
     $this->resetPage();
-    $this->transactions = $this->loadTransactions();
   }
 
   /**
    * @return Builder|bool
    */
-  public function loadTransactions()
+  public function loadTransactions(): Builder
   {
     return (new ListTransactionsService())->getList(
       new TransactionListDTO(
@@ -85,10 +79,8 @@ class Home extends Component
 
   public function render()
   {
-    $this->transactions = $this->loadTransactions();
-
     return view('livewire.dashboard.home', [
-      'transactions' => $this->transactions->paginate($this->perPage),
+      'transactions' => $this->loadTransactions()->paginate($this->perPage),
       'balance'      => $this->balance,
     ]);
   }
