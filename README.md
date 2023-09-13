@@ -2,7 +2,7 @@
 
 ##### Coding Collective's Take Home test
 
-This app is built with Laravel 10 & Livewire 3.
+This app is built with Laravel 10, Livewire 3 & TailwindCSS + Flowbite.
 
 ### Prerequisites
 
@@ -78,7 +78,7 @@ You can use the following commands to manage this project:
 ### Preview
 
 1. Home
-   ![image](https://github.com/abdulhalimzhr/copayments/assets/75671219/52201158-62a0-49d4-a771-ec165361a124)
+   ![image](https://github.com/abdulhalimzhr/copayments/assets/75671219/759cd7ba-0bf7-4146-a9af-b9b4b5f98c7c)
 
 2. Login
    ![image](https://github.com/abdulhalimzhr/copayments/assets/75671219/0178033e-bc8e-4d5b-94c1-aa2eabcd129d)
