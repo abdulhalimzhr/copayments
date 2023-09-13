@@ -34,6 +34,7 @@ class WalletJob implements ShouldQueue
 
   /**
    * Execute the job.
+   * @param Wallet Job
    */
   public function handle(Wallet $wallet): array
   {
@@ -91,6 +92,7 @@ class WalletJob implements ShouldQueue
   }
 
   /**
+   * The number of times the job may be attempted.
    * @return \DateTimeInterface
    */
   public function retryUntil()
@@ -100,7 +102,6 @@ class WalletJob implements ShouldQueue
 
   /**
    * Calculate the number of seconds to wait before retrying the job.
-   *
    * @return array<int, int>
    */
   public function backoff(): array

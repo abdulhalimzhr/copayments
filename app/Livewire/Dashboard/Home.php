@@ -14,11 +14,25 @@ class Home extends Component
 
   #[Title('Dashboard')]
 
+  /**
+   * @var int
+   */
   public $perPage = 10;
+
+  /**
+   * @var string
+   */
   public $search  = '';
+
+  /**
+   * @var float
+   */
   public $balance = 0;
+
+  /**
+   * @var null|LengthAwarePaginator
+   */
   protected $transactions = null;
-  public $page;
 
   public function mount()
   {

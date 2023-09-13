@@ -11,8 +11,14 @@ class Deposit extends Component
 {
   #[Title('Deposit')]
 
+  /**
+   * @var float
+   */
   public $amount;
 
+  /**
+   * @return void
+   */
   public function deposit()
   {
     try {

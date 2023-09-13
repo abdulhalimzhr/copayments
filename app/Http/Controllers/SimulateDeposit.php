@@ -9,7 +9,26 @@ use App\Services\Payment\SimulateDeposit as SimulateDepositService;
 class SimulateDeposit extends Controller
 {
   /**
+   * Simulate deposit
+   * POST /api/v1/simulate/deposit
+   * 
+   * Body: {
+   *  "order_id": "string",
+   *  "amount": "numeric",
+   *  "timestamp": "date_format:Y-m-d H:i:s"
+   * }
+   * 
+   * Response: {
+   *  "status": "boolean",
+   *  "message": "string",
+   *  "data": {
+   *    "order_id": "string",
+   *    "amount": "numeric",
+   *    "status": "boolean",
+   *  }
+   * }
    * @param Request $request
+   * @param SimulateDepositService $service
    * 
    * @return \Illuminate\Http\JsonResponse
    */

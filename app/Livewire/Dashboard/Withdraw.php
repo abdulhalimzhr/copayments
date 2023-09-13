@@ -11,9 +11,15 @@ class Withdraw extends Component
 {
   #[Title('Withdraw')]
 
+  /**
+   * @var float
+   */
   public $amount;
 
-  public function deposit()
+  /**
+   * @return void
+   */
+  public function withdraw()
   {
     try {
       $this->validate([

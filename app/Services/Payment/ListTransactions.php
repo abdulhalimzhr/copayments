@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Builder;
 class ListTransactions extends AbstractService
 {
   /**
+   * Get List of Transactions
    * @param TransactionListDTO $dto
+   * 
    * @return Builder|bool
    */
   public function getList(TransactionListDTO $dto): Builder|bool

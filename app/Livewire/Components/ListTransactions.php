@@ -6,8 +6,15 @@ use Livewire\Component;
 
 class ListTransactions extends Component
 {
+  /**
+   * @var null|LengthAwarePaginator
+   */
   public $transactions = null;
-  public $search       = '';
+
+  /**
+   * @var string
+   */
+  public $search = '';
 
   public function render()
   {

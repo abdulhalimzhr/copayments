@@ -182,6 +182,7 @@ class Wallet extends AbstractService
   }
 
   /**
+   * Check existing transaction
    * @param array $data
    * 
    * @return object
