@@ -39,6 +39,7 @@ class Wallet extends AbstractService
     {
         try {
             DB::beginTransaction();
+            Log::info('Withdraw Job Started: ', $data);
 
             $user = $this->user->findOrFail($data['user_id']);
 
@@ -49,7 +50,7 @@ class Wallet extends AbstractService
                 ];
             }
 
-            $existing = $this->transaction->where('order_id', $data['order_id'])->first();
+            $existing = $this->checkExistingTransaction($data);
 
             if (!$existing) {
                 $this->transaction->create([
@@ -71,6 +72,8 @@ class Wallet extends AbstractService
 
             DB::commit();
 
+            Log::info('Withdraw Job finished: ', $data);
+
             return [
                 'status'  => true,
                 'message' => 'Withdraw successful'
@@ -85,6 +88,12 @@ class Wallet extends AbstractService
                 'type'        => self::WITHDRAW,
                 'status'      => self::FAILED,
                 'description' => 'Withdraw failed. Error: ' . $e->getCode()
+            ]);
+
+            Log::info('Withdraw Job Failed: ', [
+                'user_id' => $data['user_id'],
+                'amount'  => $data['amount'],
+                'error'   => $e->getMessage()
             ]);
 
             return [
@@ -103,16 +112,9 @@ class Wallet extends AbstractService
     {
         try {
             DB::beginTransaction();
-            Log::info('Deposit Started: ', [
-                'user_id'  => $data['user_id'],
-                'amount'   => $data['amount'],
-                'order_id' => $data['order_id'],
-            ]);
-            $existing = $this->transaction->where('order_id', $data['order_id'])->first();
+            Log::info('Deposit Job Started: ', $data);
 
-            Log::info('Deposit Existing: ', [
-                'existing' => $existing
-            ]);
+            $existing = $this->checkExistingTransaction($data);
 
             if (!$existing) {
                 $this->transaction->create([
@@ -136,6 +138,12 @@ class Wallet extends AbstractService
 
             DB::commit();
 
+            Log::info('Deposit Job Finished: ', [
+                'user_id' => $data['user_id'],
+                'amount'  => $data['amount'],
+                'balance' => $user->balance
+            ]);
+
             return [
                 'status'  => true,
                 'message' => 'Deposit successful'
@@ -152,10 +160,35 @@ class Wallet extends AbstractService
                 'description' => 'Deposit failed. Error: ' . $e->getCode()
             ]);
 
+            Log::info('Deposit Job Failed: ', [
+                'user_id' => $data['user_id'],
+                'amount'  => $data['amount'],
+                'error'   => $e->getMessage()
+            ]);
+
             return [
                 'status'  => false,
                 'message' => 'Deposit failed. Error: ' . $e->getMessage()
             ];
         }
+    }
+
+    /**
+     * @param array $data
+     * 
+     * @return object
+     */
+    private function checkExistingTransaction($data)
+    {
+        $result = $this->transaction->where('order_id', $data['order_id'])
+            ->andWhere('user_id', $data['user_id'])
+            ->andWhere('status', self::FAILED)
+            ->first();
+
+        Log::info('Failed Transaction Existing: ', [
+            'existing' => $result
+        ]);
+
+        return $result;
     }
 }

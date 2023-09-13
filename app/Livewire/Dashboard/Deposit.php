@@ -10,6 +10,7 @@ use App\DTO\DepositDTO;
 class Deposit extends Component
 {
   #[Title('Deposit')]
+
   public $amount;
 
   public function deposit()

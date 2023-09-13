@@ -45,31 +45,20 @@ class WalletJob implements ShouldQueue
     ]);
 
     $result = null;
+    $params = [
+      'user_id'  => $this->userId,
+      'amount'   => $this->amount,
+      'order_id' => $this->orderId
+    ];
 
     if ($this->type === $wallet::DEPOSIT) {
-      Log::info('Wallet Job Deposit: ', [
-        'user_id'  => $this->userId,
-        'amount'   => $this->amount,
-        'order_id' => $this->orderId,
-      ]);
+      Log::info('Wallet Job Deposit: ', $params);
 
-      $result = $wallet->deposit([
-        'user_id'  => $this->userId,
-        'amount'   => $this->amount,
-        'order_id' => $this->orderId
-      ]);
+      $result = $wallet->deposit($params);
     } elseif ($this->type === $wallet::WITHDRAW) {
-      Log::info('Wallet Job Withdraw: ', [
-        'user_id'  => $this->userId,
-        'amount'   => $this->amount,
-        'order_id' => $this->orderId,
-      ]);
+      Log::info('Wallet Job Withdraw: ', $params);
 
-      $result = $wallet->withdraw([
-        'user_id'  => $this->userId,
-        'amount'   => $this->amount,
-        'order_id' => $this->orderId,
-      ]);
+      $result = $wallet->withdraw($params);
     }
 
     Log::info('Wallet Job Finished: ', [

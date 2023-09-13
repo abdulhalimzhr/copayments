@@ -5,13 +5,11 @@ namespace App\Livewire\Auth;
 use Livewire\Component;
 use App\Services\Auth\Login as LoginService;
 use App\DTO\LoginDTO;
+use Livewire\Attributes\Title;
 
 class Login extends Component
 {
-    /**
-     * @var string
-     */
-    public $title = 'Login - CoPayments';
+    #[Title('Login - CoPayments')]
 
     /**
      * @var string
@@ -45,11 +43,6 @@ class Login extends Component
     public function render()
     {
         return view('livewire.auth.login')
-            ->layout(
-                'components.layouts.auth',
-                [
-                    'title' => $this->title
-                ]
-            );
+            ->layout('components.layouts.auth');
     }
 }
