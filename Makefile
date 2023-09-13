@@ -9,20 +9,13 @@ CMD_ARTISAN = $(DOCKER_PHP_EXECUTABLE_CMD) artisan
 CMD_COMPOSER = composer
 CMD_NPM = npm
 
-setup:
-ifeq (,$(wildcard ./.env))
-	cp .env.example .env
-endif
+setup: .env
 	$(DOCKER_COMPOSE) up -d --build
-ifeq (,$(wildcard ./vendor/))
 	$(CMD_COMPOSER) install
-endif
-ifeq (,$(wildcard ./node_modules/))
 	$(CMD_NPM) install
-endif
 	$(CMD_ARTISAN) key:generate
 	echo "Waiting for MySQL to be ready..."
-	timeout 3
+	sleep 3
 	$(CMD_ARTISAN) migrate:fresh --seed
 	$(CMD_ARTISAN) config:clear
 	$(CMD_ARTISAN) route:clear
@@ -31,18 +24,10 @@ endif
 	$(CMD_NPM) run build
 	$(CMD_NPM) run dev
 
-
-setup-m1:
-ifeq (,$(wildcard ./.env))
-	cp .env.example .env
-endif
+setup-m1: .env
 	$(DOCKER_COMPOSE_M1) up -d --build
-ifeq (,$(wildcard ./vendor/))
 	$(CMD_COMPOSER) install
-endif
-ifeq (,$(wildcard ./node_modules/))
 	$(CMD_NPM) install
-endif
 	$(CMD_ARTISAN) key:generate
 	$(CMD_ARTISAN) migrate:fresh --seed
 	$(CMD_ARTISAN) config:clear
@@ -53,7 +38,7 @@ endif
 	$(CMD_NPM) run dev
 
 start:
-    $(DOCKER_COMPOSE) up -d
+	$(DOCKER_COMPOSE) up -d
 
 start-m1:
 	$(DOCKER_COMPOSE_M1) up -d
@@ -97,6 +82,9 @@ queue-work:
 queue-listen:
 	$(DOCKER_PHP_CONTAINER_EXEC) php artisan queue:listen
 
+.env:
+	cp .env.example .env
+
 help:
 	@echo "Laravel Docker Makefile"
 	@echo ""
@@ -111,7 +99,6 @@ help:
 	@echo "  make stop                  Stop the project"
 	@echo "  make down                  Stop and remove containers, networks, images, and volumes"
 	@echo "  make cache                 Clear cache"
-	@echo "  make install               Install the project"
 	@echo "  make logs                  Show container logs"
 	@echo "  make reset                 Reset the database and seed it"
 	@echo "  make route-list            List routes"
