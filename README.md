@@ -23,7 +23,7 @@ Please make sure you have the following tools installed before setting up this p
    make setup
    ```
 
-   For Mac M1:
+   For Mac M1 and above:
 
    ```
    make setup-m1
