@@ -4,6 +4,8 @@
 
 This app is built with Laravel 10, Livewire 3 & TailwindCSS + Flowbite.
 
+*Tested with Windows 11
+
 ### Prerequisites
 
 Please make sure you have the following tools installed before setting up this project:
