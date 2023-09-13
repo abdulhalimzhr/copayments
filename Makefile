@@ -63,9 +63,6 @@ route-list:
 bash:
 	$(DOCKER_PHP_CONTAINER_EXEC) bash
 
-test-unit:
-	$(CMD_ARTISAN) test
-
 queue-work:
 	$(DOCKER_PHP_CONTAINER_EXEC) php artisan queue:work
 
@@ -88,6 +85,5 @@ help:
 	@echo "  make reset                 Reset the database and seed it"
 	@echo "  make route-list            List routes"
 	@echo "  make bash                  Access the app container bash"
-	@echo "  make test-unit             Run unit tests"
 	@echo "  make queue-work            Start the queue worker"
 	@echo "  make queue-listen          Start the queue listener"
