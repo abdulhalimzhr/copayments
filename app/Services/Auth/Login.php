@@ -8,50 +8,50 @@ use App\DTO\LoginDTO;
 
 class Login
 {
-    /**
-     * @param LoginDTO $dto
-     * 
-     * @return array
-     */
-    public function authenticate(LoginDTO $dto): array
-    {
-        $credentials = $dto->toArray();
-        unset($credentials['userId']);
+  /**
+   * @param LoginDTO $dto
+   * 
+   * @return array
+   */
+  public function authenticate(LoginDTO $dto): array
+  {
+    $credentials = $dto->toArray();
+    unset($credentials['userId']);
 
-        if (Auth::attempt($credentials)) {
-            return [
-                'status' => true
-            ];
-        }
-
-        return [
-            'status' => false,
-            'message' => 'Invalid credentials',
-        ];
+    if (Auth::attempt($credentials)) {
+      return [
+        'status' => true
+      ];
     }
 
-    /**
-     * @return User|null
-     */
-    public function getUser(): ?User
-    {
-        return Auth::user();
-    }
+    return [
+      'status' => false,
+      'message' => 'Invalid credentials',
+    ];
+  }
 
-    /**
-     * @return bool
-     */
-    public function validate(): bool
-    {
-        return Auth::check();
-    }
+  /**
+   * @return User|null
+   */
+  public function getUser(): ?User
+  {
+    return Auth::user();
+  }
 
-    /**
-     * 
-     * @return void
-     */
-    public function logout(): void
-    {
-        Auth::logout();
-    }
+  /**
+   * @return bool
+   */
+  public function validate(): bool
+  {
+    return Auth::check();
+  }
+
+  /**
+   * 
+   * @return void
+   */
+  public function logout(): void
+  {
+    Auth::logout();
+  }
 }
