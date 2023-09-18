@@ -47,5 +47,4 @@
     </ul>
     @endif
   </div>
-  </div>
 </nav>
