@@ -1,7 +1,5 @@
 ## CoPayments
 
-##### Coding Collective's Take Home test
-
 This app is built with Laravel 10, Livewire 3 & TailwindCSS + Flowbite.
 
 *Tested with Windows 11
